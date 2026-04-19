@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: pharmacore-postgres
+    environment:
+      POSTGRES_DB: pharmacore_drug
+      POSTGRES_USER: pharmacore
+      POSTGRES_PASSWORD: pharmacore
+    ports:
+      - "5437:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
