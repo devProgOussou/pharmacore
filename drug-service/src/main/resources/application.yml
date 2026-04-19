@@ -5,7 +5,7 @@ spring:
   application:
     name: drug-service
   datasource:
-    url: jdbc:postgresql://localhost:5437/pharmacore_drug
+    url: jdbc:postgresql://localhost:5432/pharmacore_drug
     username: pharmacore
     password: pharmacore
   jpa:

@@ -1,0 +1,61 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+
+        - id: drug-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/v1/drugs/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+            - AddRequestHeader=X-Gateway-Source, pharmacore-gateway
+            - AddResponseHeader=X-Response-Time, ${spring.application.name}
+
+        - id: patient-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/v1/patients/**
+
+        - id: prescription-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/v1/prescriptions/**
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    gateway:
+      enabled: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.pharmacore.gateway: DEBUG
