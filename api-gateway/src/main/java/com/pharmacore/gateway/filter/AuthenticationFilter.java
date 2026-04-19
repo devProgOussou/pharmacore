@@ -1,6 +1,7 @@
 package com.pharmacore.gateway.filter;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -8,10 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-@Slf4j
 @Component
 public class AuthenticationFilter
         extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
+
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationFilter.class);
 
     public AuthenticationFilter() {
         super(Config.class);
@@ -36,7 +38,6 @@ public class AuthenticationFilter
                 return exchange.getResponse().setComplete();
             }
 
-            // TODO phase 2 : valider le JWT via auth-service
             log.debug("[AUTH FILTER] Token présent pour {}", path);
             return chain.filter(exchange);
         };
@@ -48,6 +49,5 @@ public class AuthenticationFilter
     }
 
     public static class Config {
-        // configuration future : whitelist, roles requis, etc.
     }
 }
