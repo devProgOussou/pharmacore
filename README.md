@@ -1,5 +1,3 @@
-Bonne discipline — un README écrit maintenant pendant que tout est frais dans ta tête. Crée `pharmacore/README.md` :
-
 ```markdown
 # PharmaCore
 
