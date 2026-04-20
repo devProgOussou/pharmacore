@@ -41,7 +41,7 @@ client
 
 ```bash
 # Cloner le repo
-git clone https://github.com/<ton-username>/pharmacore.git
+git clone https://github.com/devProgOussou/pharmacore.git
 cd pharmacore
 
 # Démarrer l'infrastructure (PostgreSQL)
