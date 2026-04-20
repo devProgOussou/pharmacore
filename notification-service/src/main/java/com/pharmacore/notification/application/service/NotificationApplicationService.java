@@ -21,8 +21,8 @@ public class NotificationApplicationService implements NotificationUseCase {
      *                            plutôt que de dropper les événements.
      */
     private final Sinks.Many<Notification> sink = Sinks.many()
-            .multicast()
-            .onBackpressureBuffer();
+            .replay()
+            .limit(50);
 
     @Override
     public Mono<Notification> publish(Notification notification) {
