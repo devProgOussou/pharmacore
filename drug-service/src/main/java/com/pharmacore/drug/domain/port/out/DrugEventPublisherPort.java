@@ -1,4 +1,7 @@
 package com.pharmacore.drug.domain.port.out;
 
-public class DrugEventPublisherPort {
+import com.pharmacore.drug.domain.event.StockAlertEvent;
+
+public interface DrugEventPublisherPort {
+    void publishStockAlert(StockAlertEvent event);
 }

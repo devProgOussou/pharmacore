@@ -3,6 +3,7 @@ package com.pharmacore.drug.infrastructure.adapter.in.rest;
 import com.pharmacore.drug.domain.model.DrugId;
 import com.pharmacore.drug.domain.port.in.CreateDrugUseCase;
 import com.pharmacore.drug.domain.port.in.GetDrugUseCase;
+import com.pharmacore.drug.domain.port.in.UpdateStockUseCase;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ public class DrugController {
 
     private final CreateDrugUseCase createDrugUseCase;
     private final GetDrugUseCase getDrugUseCase;
+    private final UpdateStockUseCase updateStockUseCase;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -39,5 +41,13 @@ public class DrugController {
         return getDrugUseCase.getAllDrugs().stream()
                 .map(DrugResponse::from)
                 .toList();
+    }
+
+    @PatchMapping("/{id}/stock")
+    public DrugResponse updateStock(@PathVariable String id,
+                                    @RequestBody UpdateStockRequest request) {
+        var command = new UpdateStockUseCase.UpdateStockCommand(
+                DrugId.of(id), request.newStock());
+        return DrugResponse.from(updateStockUseCase.updateStock(command));
     }
 }
