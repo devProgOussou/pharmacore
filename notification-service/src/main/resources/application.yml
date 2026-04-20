@@ -1,0 +1,11 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: notification-service
+
+logging:
+  level:
+    com.pharmacore.notification: DEBUG
+    reactor.core: WARN
